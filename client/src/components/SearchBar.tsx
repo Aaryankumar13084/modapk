@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { RiSearchLine } from "@/lib/icons";
 
 interface SearchBarProps {
@@ -7,6 +7,17 @@ interface SearchBarProps {
 
 export function SearchBar({ onSearch }: SearchBarProps) {
   const [searchQuery, setSearchQuery] = useState("");
+  
+  // Instantly search as user types (after a small delay)
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      if (searchQuery) {
+        onSearch(searchQuery);
+      }
+    }, 300); // Debounce by 300ms to avoid too many requests
+    
+    return () => clearTimeout(delayDebounceFn);
+  }, [searchQuery, onSearch]);
   
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();

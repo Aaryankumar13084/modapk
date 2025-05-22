@@ -42,17 +42,17 @@ export default function Home() {
       <FeaturedApps />
       
       {/* Trending Section */}
-      <div className="px-4 sm:px-6 lg:px-8 mb-8">
+      <div className="px-3 sm:px-6 lg:px-8 mb-8">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-bold text-gray-900">Trending Apps</h2>
+          <h2 className="text-xl font-bold text-primary-foreground">Trending Apps</h2>
           <Link href="/category/trending">
-            <Button variant="link" className="text-primary hover:text-indigo-700">
+            <Button variant="ghost" size="sm" className="text-primary hover:text-primary-dark">
               View all
             </Button>
           </Link>
         </div>
         
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
           {isTrendingLoading ? (
             // Skeleton loading state
             Array.from({ length: 4 }).map((_, idx) => (
@@ -65,25 +65,28 @@ export default function Home() {
             ))
           ) : (
             // Empty state
-            <div className="col-span-full text-center py-10">
+            <div className="col-span-full text-center py-10 bg-white rounded-xl shadow-sm border border-gray-100 p-8">
               <p className="text-gray-500">No trending apps available at the moment.</p>
+              <Link href="/upload">
+                <Button className="mt-4 bg-primary hover:bg-primary/90">Upload Your First App</Button>
+              </Link>
             </div>
           )}
         </div>
       </div>
       
       {/* Latest Apps Section */}
-      <div className="px-4 sm:px-6 lg:px-8 mb-8">
+      <div className="px-3 sm:px-6 lg:px-8 mb-8">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-bold text-gray-900">Latest Uploads</h2>
+          <h2 className="text-xl font-bold text-primary-foreground">Latest Uploads</h2>
           <Link href="/category/latest">
-            <Button variant="link" className="text-primary hover:text-indigo-700">
+            <Button variant="ghost" size="sm" className="text-primary hover:text-primary-dark">
               View all
             </Button>
           </Link>
         </div>
         
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
           {isLatestLoading ? (
             // Skeleton loading state
             Array.from({ length: 4 }).map((_, idx) => (
