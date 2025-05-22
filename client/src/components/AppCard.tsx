@@ -136,7 +136,7 @@ export function AppCard({ app }: AppCardProps) {
             <p className="text-xs text-gray-500 capitalize">{app.category}</p>
             <div className="flex items-center mt-1">
               {renderRating(app.rating)}
-              <span className="text-xs text-gray-500 ml-1">{(app.rating / 10).toFixed(1)}</span>
+              <span className="text-xs text-gray-500 ml-1">{((app.rating ?? 45) / 10).toFixed(1)}</span>
             </div>
           </div>
         </div>
