@@ -82,7 +82,7 @@ export function FileInput({
   return (
     <div 
       className={cn(
-        "mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-dashed rounded-md",
+        "mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-dashed rounded-md bg-white",
         isDragging ? "border-primary" : "border-gray-300",
         className
       )}
@@ -92,7 +92,7 @@ export function FileInput({
     >
       <div className="space-y-1 text-center">
         {icon}
-        <div className="flex text-sm text-gray-600">
+        <div className="flex text-sm text-gray-700">
           <label 
             htmlFor={props.id || "file-upload"} 
             className="relative cursor-pointer bg-white rounded-md font-medium text-primary hover:text-indigo-700 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-primary"
@@ -108,9 +108,9 @@ export function FileInput({
               {...props}
             />
           </label>
-          <p className="pl-1">or drag and drop</p>
+          <p className="pl-1 text-gray-700">or drag and drop</p>
         </div>
-        <p className="text-xs text-gray-500">
+        <p className="text-xs text-gray-700">
           {fileName || helpText}
         </p>
       </div>
