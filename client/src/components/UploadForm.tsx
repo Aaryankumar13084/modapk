@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState } from "react"; 
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
@@ -89,25 +89,51 @@ export function UploadForm() {
         formData.append("iconImage", data.iconImage);
       }
       
-      const response = await fetch("/api/apks", {
-        method: "POST",
-        body: formData,
-        credentials: "include",
-      });
+      // Use XMLHttpRequest instead of fetch for more reliable file uploads
+      const xhr = new XMLHttpRequest();
       
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.message || "Failed to upload APK");
-      }
+      xhr.open("POST", "/api/apks", true);
       
-      const result = await response.json();
+      xhr.onload = function() {
+        if (xhr.status >= 200 && xhr.status < 300) {
+          const result = JSON.parse(xhr.responseText);
+          
+          toast({
+            title: "Upload Successful",
+            description: `${data.name} has been uploaded successfully.`,
+          });
+          
+          navigate(`/app/${result.id}`);
+        } else {
+          let errorMsg = "Failed to upload APK";
+          try {
+            const errorResponse = JSON.parse(xhr.responseText);
+            errorMsg = errorResponse.message || errorMsg;
+          } catch (e) {
+            // If parsing fails, use default error message
+          }
+          
+          toast({
+            title: "Upload Failed",
+            description: errorMsg,
+            variant: "destructive",
+          });
+        }
+        setIsSubmitting(false);
+      };
       
-      toast({
-        title: "Upload Successful",
-        description: `${data.name} has been uploaded successfully.`,
-      });
+      xhr.onerror = function() {
+        console.error("Upload network error");
+        toast({
+          title: "Upload Failed",
+          description: "Network error occurred. Please check your connection and try again.",
+          variant: "destructive",
+        });
+        setIsSubmitting(false);
+      };
       
-      navigate(`/app/${result.id}`);
+      xhr.send(formData);
+      
     } catch (error) {
       console.error("Upload error:", error);
       toast({
@@ -115,7 +141,6 @@ export function UploadForm() {
         description: error instanceof Error ? error.message : "Failed to upload APK file",
         variant: "destructive",
       });
-    } finally {
       setIsSubmitting(false);
     }
   };
