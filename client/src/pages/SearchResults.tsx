@@ -12,7 +12,6 @@ export default function SearchResults() {
   
   const { data: apps, isLoading } = useQuery<ApkFileWithFeatures[]>({
     queryKey: [`/api/apks/search?q=${encodeURIComponent(query)}`],
-    enabled: !!query,
   });
   
   const AppCardSkeleton = () => (
